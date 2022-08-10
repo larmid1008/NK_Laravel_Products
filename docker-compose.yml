@@ -8,10 +8,10 @@ services:
       dockerfile: docker/nginx/Dockerfile
     ports:
       - "80:80"
-    links:
-      - php-fpm
     volumes:
       - ./:/var/www/html
+    networks:
+        - store-api
 
   php-fpm:
     container_name: store-api-fpm
@@ -19,9 +19,9 @@ services:
       context: .
       dockerfile: docker/php-fpm/Dockerfile
     volumes:
-      - ./:/var/www/html
-    links:
-      - postgres
+        - ./:/var/www/html
+    networks:
+        - store-api
 
   postgres:
     image: postgres:14.4
@@ -32,3 +32,9 @@ services:
         - "5432:5432"
     volumes:
       - ../laravel-api-postgres/data:/var/lib/postgresql/data
+    networks:
+        - store-api
+
+networks:
+    store-api:
+        driver: bridge
