@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends Factory<\App\Models\Model>
  */
-class ProductsFactory extends Factory
+class ProductFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -22,7 +22,7 @@ class ProductsFactory extends Factory
             "description"  => $this->faker->realTextBetween(150, 250),
             "price"        => $this->faker->randomFloat(2, 1, 300),
             "image_url"    => $this->faker->imageUrl(800, 800),
-            "published_at" => random_int(0, 1) ? $this->faker->dateTimeBetween("-5 years", "now") : null,
+            "published_at" => random_int(0, 1) ? $this->faker->dateTimeBetween("-5 years") : null,
         ];
     }
 }

@@ -1,7 +1,5 @@
 FROM php:8.1-fpm-buster
 
-RUN usermod -u 1000 www-data
-
 RUN chmod -R 777 /var/www/html
 
 RUN apt-get update && apt-get install -y \
