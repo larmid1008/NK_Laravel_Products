@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\V1\CategoryController;
 use App\Http\Controllers\V1\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,10 +19,16 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("/v1")->group(function() {
     Route::prefix("/products")->group(function() {
         Route::get('/', [ProductController::class, 'index']);
-        Route::post('/{id}', [ProductController::class, 'store']);
+        Route::post('/', [ProductController::class, 'store']);
         Route::get('/{id}', [ProductController::class, 'show']);
-        Route::patch('/{id}', [ProductController::class, 'update']);
+        Route::put('/{id}', [ProductController::class, 'update']);
         Route::delete('/{id}', [ProductController::class, 'destroy']);
+    });
+
+    Route::prefix('/categories')->group(function() {
+        Route::get('/', [CategoryController::class, 'index']);
+        Route::post('/', [CategoryController::class, 'store']);
+        Route::delete('/{id}', [CategoryController::class, 'destroy']);
     });
 });
 

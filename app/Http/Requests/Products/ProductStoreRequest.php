@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Product;
+namespace App\Http\Requests\Products;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,11 +24,12 @@ class ProductStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "title"        => ["required", "string", "min:1"],
-            "description"  => ["string", "nullable"],
-            "price"        => ["required", "numeric"],
-            "image_url"    => ["string", "nullable"],
-            "published_at" => ["datetime", "nullable"],
+            "title"       => ["required", "string", "min:1"],
+            "description" => ["string", "nullable"],
+            "price"       => ["required", "numeric"],
+            "imageUrl"    => ["string", "nullable"],
+            "publishedAt" => ["datetime", "nullable"],
+            "categoryIds" => ["array", "nullable"],
         ];
     }
 }

@@ -3,20 +3,21 @@
 namespace App\CommandBus\Commands\Products;
 
 use App\CommandBus\Commands\BaseCommand;
-use App\CommandBus\DataTransferObjects\Products\CreateProductDTO;
+use App\CommandBus\DataTransferObjects\Products\UpdateProductDTO;
 use App\Models\Product;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class CreateProductCommand extends BaseCommand
+class UpdateProductCommand extends BaseCommand
 {
     /**
-     * @param CreateProductDTO $dto
+     * @param UpdateProductDTO $dto
      * @return Product
+     * @throws \Throwable
      */
     public function executeCommand(DataTransferObject $dto): Product
     {
-        $product = new Product(
-            [
+        $product = Product::findOrFail($dto->id);
+        $product->updateOrFail([
                 "title"       => $dto->title,
                 "description" => $dto->description,
                 "price"       => $dto->price,
@@ -24,12 +25,12 @@ class CreateProductCommand extends BaseCommand
                 "publish_at"  => $dto->publishedAt,
             ]
         );
-        $product->save();
 
         if(!empty($dto->categoryIds)) {
-           $product->categories()->attach($dto->categoryIds);
+            $product->categories()->sync($dto->categoryIds);
         }
 
-        return $product->fresh();
+        return $product->fresh("categories");
     }
+
 }
