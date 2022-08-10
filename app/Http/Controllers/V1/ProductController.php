@@ -5,9 +5,11 @@ namespace App\Http\Controllers\V1;
 use App\CommandBus\Commands\Products\CreateProductCommand;
 use App\CommandBus\DataTransferObjects\Products\CreateProductDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\ProductStoreRequest;
 use App\Http\Resources\Products\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -18,9 +20,9 @@ class ProductController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return Response
+     * @return AnonymousResourceCollection
      */
-    public function index(Request $request): Response
+    public function index(Request $request): AnonymousResourceCollection
     {
         $collection = QueryBuilder::for(Product::class)
             ->with(["categories"])
@@ -28,19 +30,17 @@ class ProductController extends Controller
             ->paginate()
             ->appends($request->query());
 
-        $products = ProductResource::collection($collection);
-
-        return new Response($products, Response::HTTP_OK);
+        return ProductResource::collection($collection);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param ProductStoreRequest $request
      * @return Response
      * @throws UnknownProperties
      */
-    public function store(Request $request): Response
+    public function store(ProductStoreRequest $request): Response
     {
         $dto = new CreateProductDTO($request->all());
         $command = new CreateProductCommand($dto);
@@ -55,9 +55,9 @@ class ProductController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
-        //
+
     }
 
     /**

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("/v1")->group(function() {
     Route::prefix("/products")->group(function() {
         Route::get('/', [ProductController::class, 'index']);
-        Route::post('/', [ProductController::class, 'store']);
+        Route::post('/{id}', [ProductController::class, 'store']);
         Route::get('/{id}', [ProductController::class, 'show']);
         Route::patch('/{id}', [ProductController::class, 'update']);
         Route::delete('/{id}', [ProductController::class, 'destroy']);
