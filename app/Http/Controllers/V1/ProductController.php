@@ -23,8 +23,8 @@ class ProductController extends Controller
     public function index(Request $request): Response
     {
         $collection = QueryBuilder::for(Product::class)
-//            ->with(["categories"])
-//            ->allowedFilters(["title"])
+            ->with(["categories"])
+            ->allowedFilters(["title"])
             ->paginate()
             ->appends($request->query());
 

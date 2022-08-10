@@ -9,5 +9,7 @@ class CategoryProducts extends Model
 {
     use HasFactory;
 
+    public $table = "category_products";
+
     public $timestamps = false;
 }
